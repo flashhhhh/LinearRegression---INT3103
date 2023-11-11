@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
+import sys
 
 def isFloat(string):
     try:
@@ -9,10 +10,15 @@ def isFloat(string):
     except ValueError:
         return False
 
-with open('csv/Salary_predict.csv') as csvfile:
+# Open data file
+args = sys.argv
+
+with open(args[1]) as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
     X = []
     y = []
+    unit = []
+
     for row in readCSV:
         x = []
         Y = []
@@ -22,6 +28,9 @@ with open('csv/Salary_predict.csv') as csvfile:
                     x.append(float(row[j]))
                 else:
                     Y.append(float(row[j]))
+            else:
+                unit.append(row)
+                break
         
         if (len(x) != 0):
             X.append(x)
@@ -34,3 +43,8 @@ with open('csv/Salary_predict.csv') as csvfile:
         
         for j in range(len(y[i])):
             print(y[i][j])
+
+    for i in range (len(unit)):
+        for j in range(len(unit[i])):
+            print(unit[i][j], end=" ")
+        print()

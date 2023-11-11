@@ -2,31 +2,13 @@ import fileinput
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+import fileinput
 from sklearn import datasets, linear_model
 
 from sklearn.preprocessing import MinMaxScaler
 
 # Open data file
-#sys.stdin = open('data/YearExperience_Salary_3.data', 'r')
-
-# Read n, m respectively number of data and number of argument in single data.
-[n, m] = map(int, input().split())
-
-# Initialize matrix X and y
-X = np.zeros((n, m))
-y = np.zeros((n, 1))
-
-numIterations = 1000
-
-# Read X and y
-for i in range(n):
-	line = input().split()
-	
-	for j in range(m):
-		X[i][j] = line[j]
-	
-	y[i] = line[m]
-
+args = sys.argv
 
 # function to show data point.
 def showData(X, y, x_min, x_max, y_min, y_max):
@@ -193,6 +175,23 @@ def solveByGradientDescent(X, y):
 	print("it = ", it)
 	print()
 
+	print("Would you want to predict? (y/n)")
+	# read from stdin
+	choice = input()
+
+	if choice == 'y':
+		data = []
+		for i in range(m):
+			print(f"Enter {unit[i]}: ", end="")
+			data.append(float(input()))
+		
+		res = int(0)
+		for i in range(m):
+			res += data[i] * temp[i + 1][0]
+		res += temp[0][0]
+
+		print(f"Result: {res:.2f}", unit[-1])
+
 	# tempx = np.array([[0, 200]]).T
 	# tempxtrans = scalerx.transform(tempx)
 	# #print(tempxtrans)
@@ -276,9 +275,40 @@ def solveByLibrary(X, y):
 # 	for j in range(m):
 # 		print(f"{X[i][j]:.2f}", end=" ")
 # 	print(f"{y[i][0]:.2f}")
+
+unit = []
+with open(args[1], 'r') as f:
+	# Read n, m respectively number of data and number of argument in single data.
+	line = f.readline()
+	[n, m] = map(int, line.split())
+
+	# Initialize matrix X and y
+	X = np.zeros((n, m))
+	y = np.zeros((n, 1))
+
+	numIterations = 1000
+
+	# Read X and y
+	for i in range(n):
+		line = f.readline().split()
+		
+		for j in range(m):
+			X[i][j] = line[j]
+		
+		y[i] = line[m]
+
+	# Read unit
+	unit = f.readline().split()
+
 solveWithMatrix(X, y)
 solveByLibrary(X, y)
 solveByGradientDescent(X, y)
+
+# print("Would you want to predict? (y/n)")
+# choice = input()
+
+# print(choice)
+
 #solveByGradientDescentWithMomentum(X, y)
 #solveByGradientDescentWithNAG(X, y)
 
