@@ -141,34 +141,13 @@ def solveByGradientDescent(X, y):
 	# print(Xbar)
 
 	[w_list, it] = gradientDescent(Xbar, ytrans, w_init, calculateGradient, 0.6)
-	# print(scalerx.transform([[0]]))
-	# print(scalerx.data_min_, scalerx.data_max_, scalerx.data_range_)
-	# print(scalery.data_min_, scalery.data_max_, scalery.data_range_)
-	# print(w_list[-1])
 	temp = w_list[-1].copy()
-	# # print(Xbar)
-	# # print(scalerx.data_range_)
-	# # print(scalery.data_range_)
-	# zeros = np.zeros((scalerx.data_max_.shape[0], 1))
-	# print(np.concatenate(([[1]], scalerx.transform(zeros.T)), axis=1))
 	temp[0] = scalery.inverse_transform(np.concatenate(([[1]], scalerx.transform(np.zeros((scalerx.data_max_.shape[0], 1)).T)), axis=1).dot(w_list[-1]))[0]
 	for i in range(scalerx.data_range_.shape[0]):
 		temp[i + 1][0] = temp[i + 1][0] / scalerx.data_range_[i] * scalery.data_range_[0]
 	
 	print("Coefficient solution by gradient descent: ")
 	print(temp)
-	# print(scalery.inverse_transform(temp))
-	# print("trans x ", scalerx.transform([[scalerx.data_max_[0]], [0]]))
-	# print("trans x2", scalerx.transform([[scalerx.data_max_[0]], [1]]))
-	# temp2 = scalerx.transform([[scalerx.data_max_[0]], [0]]).T.dot(temp)
-	# temp3 = scalery.inverse_transform(scalerx.transform([[scalerx.data_max_[0]], [1]]).T.dot(temp)) - scalery.inverse_transform(temp2);
-	# temp4 = scalerx.transform([[scalerx.data_max_[0]], [1]]).T.dot(temp) - temp2
-	# print(temp2, scalery.inverse_transform(temp2))
-	# print(temp3)
-	# print(temp4)
-	# print(scalerx.transform([[scalerx.data_max_[0]], [scalerx.data_min_[0]]]).T.dot(temp), scalery.inverse_transform(scalerx.transform([[1], [0]]).T.dot(temp)))
-	# print(scalerx.transform([[scalerx.data_min_[0]], [scalerx.data_max_[0]]]).T.dot(temp), scalery.inverse_transform(scalerx.transform([[0], [1]]).T.dot(temp)))
-	# print(costTransformed(Xbar, ytrans, w_list[-1], scalery))
 	
 	print("Cost by gradient descent: ")
 	print(cost(np.concatenate((ones, X), axis=1), y, temp))
@@ -193,26 +172,6 @@ def solveByGradientDescent(X, y):
 		res += temp[0][0]
 
 		print(f"Result: {res:.2f}", unit[-1])
-
-	# tempx = np.array([[0, 200]]).T
-	# tempxtrans = scalerx.transform(tempx)
-	# #print(tempxtrans)
-	# tempones = np.ones((tempx.shape[0], 1))
-	# tempxbar = np.concatenate((tempones, tempxtrans), axis=1)
-	# tempy = tempxbar.dot(w_list[-1])
-	# #print(tempy)
-	# tempy = scalery.inverse_transform(tempy)
-	# print("y:", scalery.inverse_transform(tempxbar.dot(w_list[-1])))
-
-	# plt.plot(X, y, 'ro')
-	# plt.plot(tempx, tempy)
-	# plt.axis([0, 200, -100, 100])
-	# plt.xlabel('Height (cm)')
-	# plt.ylabel('Weight (kg)')
-	# plt.show()
-	# print(tempy[0])
-	# showData(w_list[-1], 100, 200, 0, 100)
-
 """
 def solveByGradientDescentWithMomentum(X, y):
 	ones = np.ones((X.shape[0], 1))
@@ -263,20 +222,6 @@ def solveByLibrary(X, y):
 	print()
 	
 	#showData(w.T, 100, 200, 0, 100)
-
-# for i in range(n):
-# 	for j in range(m):
-# 		print(f"{X[i][j]:.2f}", end=" ")
-# 	print(f"{y[i][0]:.2f}")
-# scalerx = MinMaxScaler()
-# scalery = MinMaxScaler()
-# print()
-# X = scalerx.fit_transform(X)
-# y = scalery.fit_transform(y)
-# for i in range(n):
-# 	for j in range(m):
-# 		print(f"{X[i][j]:.2f}", end=" ")
-# 	print(f"{y[i][0]:.2f}")
 
 unit = []
 with open(args[1], 'r') as f:
