@@ -7,7 +7,7 @@ from sklearn import datasets, linear_model
 
 from sklearn.preprocessing import MinMaxScaler
 
-# Open data file
+# Get arguments from command line
 args = sys.argv
 
 # function to show data point.
@@ -25,8 +25,8 @@ def showData(w, x_min, x_max, y_min, y_max):
 	plt.plot(X, y, 'ro')
 	plt.plot(x0, y0)
 	plt.axis([x_min, x_max, y_min, y_max])
-	plt.xlabel('Height (cm)')
-	plt.ylabel('Weight (kg)')
+	plt.xlabel('Experience (years)')
+	plt.ylabel('Salary (yen)')
 	plt.show()
 
 #showData(X, y, 100, 200, 0, 100)
@@ -46,6 +46,8 @@ def solveWithMatrix(X, y):
 	print("Cost by formula: ")
 	print(cost(Xbar, y, w))
 	print()
+
+	showData(w, 0, 13, 30000, 120000)
 
 def cost(X, y, w):
 	n = X.shape[0]
